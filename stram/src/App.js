@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HashRouter as Router, Route, Routes } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import StravaLogin from './components/StravaLogin';
 import StravaCallback from './components/StravaCallback';
 import StravaData from './components/StravaData';
@@ -24,22 +24,42 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
-        <Routes>
-          <Route path="/callback" element={<StravaCallback setIsAuthenticated={updateAuthState} />} />
-          <Route path="/" element={
-            isAuthenticated ? (
-              <>
-                <StravaData setActivities={setActivities} />
-                <Map activities={activities} />
-              </>
-            ) : (
-              <StravaLogin />
-            )
-          } />
-        </Routes>
-      </div>
+      <AppContent
+        isAuthenticated={isAuthenticated}
+        setIsAuthenticated={updateAuthState}
+        activities={activities}
+        setActivities={setActivities}
+      />
     </Router>
+  );
+}
+
+function AppContent({ isAuthenticated, setIsAuthenticated, activities, setActivities }) {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log('AppContent: isAuthenticated changed to', isAuthenticated);
+    if (isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate]);
+
+  return (
+    <div className="App">
+      <Routes>
+        <Route path="/callback" element={<StravaCallback setIsAuthenticated={setIsAuthenticated} />} />
+        <Route path="/" element={
+          isAuthenticated ? (
+            <>
+              <StravaData setActivities={setActivities} />
+              <Map activities={activities} />
+            </>
+          ) : (
+            <StravaLogin />
+          )
+        } />
+      </Routes>
+    </div>
   );
 }
 

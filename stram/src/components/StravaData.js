@@ -39,6 +39,9 @@ const StravaCallback = ({ setIsAuthenticated }) => {
 			localStorage.setItem('strava_refresh_token', refresh_token);
 
 			console.log('Tokens stored in localStorage');
+			console.log('Access token in localStorage:', localStorage.getItem('strava_access_token'));
+
+			console.log('Tokens stored in localStorage');
 			setIsAuthenticated(true);
 			console.log('setIsAuthenticated called with true');
 			navigate('/');
