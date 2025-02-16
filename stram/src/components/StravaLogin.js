@@ -1,26 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 const StravaLogin = () => {
-	const [clientId, setClientId] = useState(null);
-
-	useEffect(() => {
-		// Try to get the client ID from the environment variable first
-		let id = process.env.REACT_APP_STRAVA_CLIENT_ID;
-
-		// If not found, try to get it from the window.STRAVA_CONFIG
-		if (!id && window.STRAVA_CONFIG) {
-			id = window.STRAVA_CONFIG.CLIENT_ID;
-		}
-
-		setClientId(id);
-		console.log('Client ID:', id);
-	}, []);
-
 	const handleLogin = () => {
-		if (!clientId) {
-			console.error('Strava Client ID not found');
-			return;
-		}
+		const clientId = process.env.REACT_APP_STRAVA_CLIENT_ID;
+		console.log('Client ID:', process.env.REACT_APP_STRAVA_CLIENT_ID);
 
 		const redirectUri = encodeURIComponent('https://R0820395.github.io/stram/callback');
 		const scope = 'activity:read_all';
@@ -29,9 +12,7 @@ const StravaLogin = () => {
 	};
 
 	return (
-		<button onClick={handleLogin} disabled={!clientId}>
-			Connect with Strava
-		</button>
+		<button onClick={handleLogin}>Connect with Strava</button>
 	);
 };
 
