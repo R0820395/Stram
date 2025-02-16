@@ -1,17 +1,35 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import StravaLogin from './components/StravaLogin';
+import StravaCallback from './components/StravaCallback';
+import StravaData from './components/StravaData';
+import Map from './components/Map';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+function App() {
+  const [activities, setActivities] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    !!localStorage.getItem('strava_access_token')
+  );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+  return (
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/callback" element={<StravaCallback />} />
+          <Route path="/" element={
+            isAuthenticated ? (
+              <>
+                <StravaData setActivities={setActivities} />
+                <Map activities={activities} />
+              </>
+            ) : (
+              <StravaLogin />
+            )
+          } />
+        </Routes>
+      </div>
+    </Router>
+  );
+}
+
+export default App;
