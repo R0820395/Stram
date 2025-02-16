@@ -5,7 +5,7 @@ import StravaCallback from './components/StravaCallback';
 import StravaData from './components/StravaData';
 import Map from './components/Map';
 
-// yes
+// no
 
 function App() {
   const [activities, setActivities] = useState([]);
