@@ -14,11 +14,14 @@ const StravaCallback = ({ setIsAuthenticated }) => {
 		};
 
 		logAndSetStatus('StravaCallback: Component mounted');
-		const hash = location.hash;
-		logAndSetStatus(`Location hash: ${hash}`);
+		logAndSetStatus(`Location: ${JSON.stringify(location)}`);
 
-		if (hash.includes('code=')) {
-			const code = hash.split('code=')[1].split('&')[0];
+		const params = new URLSearchParams(location.search);
+		const hashParams = new URLSearchParams(location.hash.slice(1));
+
+		const code = params.get('code') || hashParams.get('code');
+
+		if (code) {
 			logAndSetStatus(`Authorization code: ${code}`);
 			exchangeToken(code);
 		} else {
