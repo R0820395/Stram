@@ -26,6 +26,16 @@ jobs:
       working-directory: ./stram
       run: npm ci  # Using 'npm ci' for more reliable builds
 
+    - name: Debug GitHub Secrets
+      run: |
+        echo "Checking environment variables..."
+        echo "REACT_APP_STRAVA_CLIENT_ID length: ${#REACT_APP_STRAVA_CLIENT_ID}"
+        echo "REACT_APP_STRAVA_CLIENT_SECRET length: ${#REACT_APP_STRAVA_CLIENT_SECRET}"
+      env:
+        REACT_APP_STRAVA_CLIENT_ID: ${{ secrets.REACT_APP_STRAVA_CLIENT_ID }}
+        REACT_APP_STRAVA_CLIENT_SECRET: ${{ secrets.REACT_APP_STRAVA_CLIENT_SECRET }}
+
+
     - name: Set and Check Environment Variables
       run: |
         if [ -n "${{ secrets.REACT_APP_STRAVA_CLIENT_ID }}" ]; then
