@@ -22,7 +22,7 @@ jobs:
       run: npm install
 
     - name: Set Environment Variables
-        run: |
+      run: |
         echo "REACT_APP_STRAVA_CLIENT_ID=${{ secrets.REACT_APP_STRAVA_CLIENT_ID }}" >> $GITHUB_ENV
         echo "REACT_APP_STRAVA_CLIENT_SECRET=${{ secrets.REACT_APP_STRAVA_CLIENT_SECRET }}" >> $GITHUB_ENV
     
