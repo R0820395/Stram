@@ -28,8 +28,6 @@ jobs:
         REACT_APP_STRAVA_CLIENT_SECRET: ${{ secrets.REACT_APP_STRAVA_CLIENT_SECRET }}
         run: CI=false npm run build
 
-
-
     - name: Check Build Output
       working-directory: ./stram
       run: grep REACT_APP_STRAVA_CLIENT_ID build/static/js/*.js || echo "Client ID not found in build output"
