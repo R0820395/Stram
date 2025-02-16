@@ -1,0 +1,6 @@
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      REACT_APP_STRAVA_CLIENT_ID: ${{ secrets.REACT_APP_STRAVA_CLIENT_ID }}
+      REACT_APP_STRAVA_CLIENT_SECRET: ${{ secrets.REACT_APP_STRAVA_CLIENT_SECRET }}
