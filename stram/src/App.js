@@ -13,7 +13,6 @@ function App() {
     !!localStorage.getItem('strava_access_token')
   );
 
-  //
   return (
     <Router>
       <div className="App">
