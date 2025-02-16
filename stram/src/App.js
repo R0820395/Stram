@@ -7,19 +7,26 @@ import Map from './components/Map';
 
 function App() {
   const [activities, setActivities] = useState([]);
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    !!localStorage.getItem('strava_access_token')
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    const token = localStorage.getItem('strava_access_token');
+    console.log('Initial auth state:', !!token);
+    return !!token;
+  });
 
   useEffect(() => {
-    console.log('Authentication state:', isAuthenticated);
+    console.log('Authentication state updated:', isAuthenticated);
   }, [isAuthenticated]);
+
+  const updateAuthState = (state) => {
+    console.log('Updating auth state to:', state);
+    setIsAuthenticated(state);
+  };
 
   return (
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/callback" element={<StravaCallback setIsAuthenticated={setIsAuthenticated} />} />
+          <Route path="/callback" element={<StravaCallback setIsAuthenticated={updateAuthState} />} />
           <Route path="/" element={
             isAuthenticated ? (
               <>
