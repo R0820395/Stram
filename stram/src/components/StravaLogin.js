@@ -8,7 +8,7 @@ const StravaLogin = () => {
 		const redirectUri = `https://${window.location.hostname}/stram/callback`;
 		const scope = 'activity:read_all';
 
-		window.location = `https://www.strava.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
+		window.location.href = `https://www.strava.com/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${scope}`;
 	};
 
 	return (
