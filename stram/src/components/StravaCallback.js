@@ -14,7 +14,7 @@ const StravaCallback = ({ setIsAuthenticated }) => {
 		};
 
 		logAndSetStatus('StravaCallback: Component mounted');
-		logAndSetStatus(`Location: ${JSON.stringify(location)}`);
+		//logAndSetStatus(`Location: ${JSON.stringify(location)}`);
 
 		const params = new URLSearchParams(location.search);
 		const hashParams = new URLSearchParams(location.hash.slice(1));
@@ -22,7 +22,7 @@ const StravaCallback = ({ setIsAuthenticated }) => {
 		const code = params.get('code') || hashParams.get('code');
 
 		if (code) {
-			logAndSetStatus(`Authorization code: ${code}`);
+			//logAndSetStatus(`Authorization code: ${code}`);
 			exchangeToken(code);
 		} else {
 			logAndSetStatus('No authorization code found in URL');
@@ -51,8 +51,8 @@ const StravaCallback = ({ setIsAuthenticated }) => {
 			localStorage.setItem('strava_access_token', access_token);
 			localStorage.setItem('strava_refresh_token', refresh_token);
 
-			logAndSetStatus('Tokens stored in localStorage');
-			logAndSetStatus(`Access token in localStorage: ${localStorage.getItem('strava_access_token')}`);
+			//logAndSetStatus('Tokens stored in localStorage');
+			//logAndSetStatus(`Access token in localStorage: ${localStorage.getItem('strava_access_token')}`);
 
 			setIsAuthenticated(true);
 			logAndSetStatus('setIsAuthenticated called with true');
