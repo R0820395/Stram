@@ -34,8 +34,17 @@ jobs:
 
     - name: Debug
       run: |
-        echo "Client ID is set: ${{ env.REACT_APP_STRAVA_CLIENT_ID != '' }}"
-        echo "Client Secret is set: ${{ env.REACT_APP_STRAVA_CLIENT_SECRET != '' }}"
+        if [ -n "$REACT_APP_STRAVA_CLIENT_ID" ]; then
+          echo "REACT_APP_STRAVA_CLIENT_ID is set"
+        else
+          echo "REACT_APP_STRAVA_CLIENT_ID is not set"
+        fi
+        if [ -n "$REACT_APP_STRAVA_CLIENT_SECRET" ]; then
+          echo "REACT_APP_STRAVA_CLIENT_SECRET is set"
+        else
+          echo "REACT_APP_STRAVA_CLIENT_SECRET is not set"
+        fi
+
     
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
