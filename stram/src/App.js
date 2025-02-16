@@ -5,21 +5,17 @@ import StravaCallback from './components/StravaCallback';
 import StravaData from './components/StravaData';
 import Map from './components/Map';
 
-// no
-
 function App() {
   const [activities, setActivities] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(
     !!localStorage.getItem('strava_access_token')
   );
 
-  //
-
   return (
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/callback" element={<StravaCallback />} />
+          <Route path="/callback" element={<StravaCallback setIsAuthenticated={setIsAuthenticated} />} />
           <Route path="/" element={
             isAuthenticated ? (
               <>
