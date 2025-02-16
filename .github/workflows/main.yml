@@ -26,7 +26,7 @@ jobs:
       env:
         REACT_APP_STRAVA_CLIENT_ID: ${{ secrets.REACT_APP_STRAVA_CLIENT_ID }}
         REACT_APP_STRAVA_CLIENT_SECRET: ${{ secrets.REACT_APP_STRAVA_CLIENT_SECRET }}
-        run: CI=false npm run build
+      run: CI=false npm run build
 
     - name: Check Build Output
       working-directory: ./stram
