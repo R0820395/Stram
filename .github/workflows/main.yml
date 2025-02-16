@@ -26,6 +26,14 @@ jobs:
       working-directory: ./stram
       run: npm ci  # Using 'npm ci' for more reliable builds
 
+    - name: Inject Environment Variables
+      run: |
+        echo "REACT_APP_STRAVA_CLIENT_ID=${{ secrets.REACT_APP_STRAVA_CLIENT_ID }}" >> .env
+        echo "REACT_APP_STRAVA_CLIENT_SECRET=${{ secrets.REACT_APP_STRAVA_CLIENT_SECRET }}" >> .env
+        cat .env  # Debugging: check if env vars are written
+      working-directory: ./stram
+
+
     - name: Debug GitHub Secrets
       run: |
         echo "Checking environment variables..."
