@@ -5,7 +5,7 @@ const StravaLogin = () => {
 		const clientId = process.env.REACT_APP_STRAVA_CLIENT_ID;
 		console.log('Client ID:', process.env.REACT_APP_STRAVA_CLIENT_ID);
 
-		const redirectUri = encodeURIComponent('https://R0820395.github.io/stram/callback');
+		const redirectUri = encodeURIComponent(`https://${window.location.hostname}/stram/callback`);
 		const scope = 'activity:read_all';
 
 		window.location = `https://www.strava.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
