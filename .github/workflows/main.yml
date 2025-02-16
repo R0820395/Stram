@@ -26,7 +26,9 @@ jobs:
 
     - name: Install Dependencies
       working-directory: ./stram
-      run: npm ci  # Using 'npm ci' for more reliable builds
+      run: |
+        npm ci
+        npm install leaflet react-leaflet
 
     - name: Inject Environment Variables
       run: |
