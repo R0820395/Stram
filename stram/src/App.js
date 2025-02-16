@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import StravaLogin from './components/StravaLogin';
 import StravaCallback from './components/StravaCallback';
@@ -10,6 +10,10 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
     !!localStorage.getItem('strava_access_token')
   );
+
+  useEffect(() => {
+    console.log('Authentication state:', isAuthenticated);
+  }, [isAuthenticated]);
 
   return (
     <Router>

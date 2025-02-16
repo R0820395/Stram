@@ -7,6 +7,7 @@ const StravaCallback = ({ setIsAuthenticated }) => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
+		console.log('StravaCallback useEffect triggered');
 		const searchParams = new URLSearchParams(location.search);
 		const code = searchParams.get('code');
 
@@ -31,6 +32,7 @@ const StravaCallback = ({ setIsAuthenticated }) => {
 
 			setIsAuthenticated(true);
 			navigate('/');
+			console.log("exchange token")
 		} catch (error) {
 			console.error('Error exchanging token:', error);
 		}
