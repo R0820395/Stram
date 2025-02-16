@@ -13,10 +13,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Change to project directory
-      run: /Users/jan/Documents/GitHub/stram/stram
-    
     - name: Install Dependencies
+      working-directory: /Users/jan/Documents/GitHub/stram/stram
       run: npm install
     
     - name: Build
