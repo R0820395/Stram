@@ -5,6 +5,8 @@ import StravaCallback from './components/StravaCallback';
 import StravaData from './components/StravaData';
 import Map from './components/Map';
 
+// yes
+
 function App() {
   const [activities, setActivities] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(
