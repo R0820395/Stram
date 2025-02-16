@@ -28,16 +28,21 @@ jobs:
 
     - name: Set and Check Environment Variables
       run: |
-        echo "REACT_APP_STRAVA_CLIENT_ID=${{ secrets.REACT_APP_STRAVA_CLIENT_ID }}" >> $GITHUB_ENV
-        echo "REACT_APP_STRAVA_CLIENT_SECRET=${{ secrets.REACT_APP_STRAVA_CLIENT_SECRET }}" >> $GITHUB_ENV
-        if [ -z "${{ secrets.REACT_APP_STRAVA_CLIENT_ID }}" ]; then
+        if [ -n "${{ secrets.REACT_APP_STRAVA_CLIENT_ID }}" ]; then
+          echo "REACT_APP_STRAVA_CLIENT_ID=${{ secrets.REACT_APP_STRAVA_CLIENT_ID }}" >> $GITHUB_ENV
+          echo "REACT_APP_STRAVA_CLIENT_ID is set in GitHub Secrets"
+        else
           echo "REACT_APP_STRAVA_CLIENT_ID is not set in GitHub Secrets"
           exit 1
         fi
-        if [ -z "${{ secrets.REACT_APP_STRAVA_CLIENT_SECRET }}" ]; then
+        if [ -n "${{ secrets.REACT_APP_STRAVA_CLIENT_SECRET }}" ]; then
+          echo "REACT_APP_STRAVA_CLIENT_SECRET=${{ secrets.REACT_APP_STRAVA_CLIENT_SECRET }}" >> $GITHUB_ENV
+          echo "REACT_APP_STRAVA_CLIENT_SECRET is set in GitHub Secrets"
+        else
           echo "REACT_APP_STRAVA_CLIENT_SECRET is not set in GitHub Secrets"
           exit 1
         fi
+
     
     - name: Build
       working-directory: ./stram
