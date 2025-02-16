@@ -13,20 +13,22 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: List directory contents
-      run: ls -R
-
+    - name: Change to project directory
+      run: cd stram
 
     - name: Install Dependencies
+      working-directory: ./stram
       run: npm install
     
     - name: Build
+      working-directory: ./stram
       run: npm run build
       env:
         REACT_APP_STRAVA_CLIENT_ID: ${{ secrets.REACT_APP_STRAVA_CLIENT_ID }}
         REACT_APP_STRAVA_CLIENT_SECRET: ${{ secrets.REACT_APP_STRAVA_CLIENT_SECRET }}
 
     - name: Check Build Output
+      working-directory: ./stram
       run: grep REACT_APP_STRAVA_CLIENT_ID build/static/js/*.js || echo "Client ID not found in build output"
 
     - name: Debug
@@ -38,4 +40,4 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./build
+        publish_dir: ./stram/build
