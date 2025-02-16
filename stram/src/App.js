@@ -40,6 +40,7 @@ function AppContent({ isAuthenticated, setIsAuthenticated, activities, setActivi
   useEffect(() => {
     console.log('AppContent: isAuthenticated changed to', isAuthenticated);
     if (isAuthenticated) {
+      console.log('Redirecting to home page');
       navigate('/');
     }
   }, [isAuthenticated, navigate]);

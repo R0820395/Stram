@@ -9,11 +9,12 @@ const StravaCallback = ({ setIsAuthenticated }) => {
 
 	useEffect(() => {
 		console.log('StravaCallback: Component mounted');
-		const searchParams = new URLSearchParams(location.search);
-		const code = searchParams.get('code');
-		console.log('Authorization code:', code);
+		const hash = location.hash;
+		console.log('Location hash:', hash);
 
-		if (code) {
+		if (hash.includes('code=')) {
+			const code = hash.split('code=')[1].split('&')[0];
+			console.log('Authorization code:', code);
 			exchangeToken(code);
 		} else {
 			console.error('No authorization code found in URL');
@@ -41,7 +42,6 @@ const StravaCallback = ({ setIsAuthenticated }) => {
 			console.log('Tokens stored in localStorage');
 			console.log('Access token in localStorage:', localStorage.getItem('strava_access_token'));
 
-			console.log('Tokens stored in localStorage');
 			setIsAuthenticated(true);
 			console.log('setIsAuthenticated called with true');
 			navigate('/');
