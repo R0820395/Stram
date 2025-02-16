@@ -1,27 +1,86 @@
 name: Build and Deploy
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
+    env:
+      REACT_APP_STRAVA_CLIENT_ID: ${{ secrets.REACT_APP_STRAVA_CLIENT_ID }}
+      REACT_APP_STRAVA_CLIENT_SECRET: ${{ secrets.REACT_APP_STRAVA_CLIENT_SECRET }}
+    
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-      - name: Install and Build
-        working-directory: ./stram
-        env:
-          REACT_APP_STRAVA_CLIENT_ID: ${{ secrets.REACT_APP_STRAVA_CLIENT_ID }}
-          REACT_APP_STRAVA_CLIENT_SECRET: ${{ secrets.REACT_APP_STRAVA_CLIENT_SECRET }}
-        run: |
-          npm install
-          npm run build
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'  # or your preferred Node.js version
 
-      - name: Deploy
-        working-directory: ./stram
-        uses: JamesIves/github-pages-deploy-action@4.1.1
-        with:
-          branch: gh-pages
-          folder: build
+    - name: Change to project directory
+      run: cd stram
+
+    - name: Install Dependencies
+      working-directory: ./stram
+      run: npm ci  # Using 'npm ci' for more reliable builds
+
+    - name: Set and Check Environment Variables
+    run: |
+      if [ -n "${{ secrets.REACT_APP_STRAVA_CLIENT_ID }}" ]; then
+        echo "REACT_APP_STRAVA_CLIENT_ID=${{ secrets.REACT_APP_STRAVA_CLIENT_ID }}" >> $GITHUB_ENV
+        echo "REACT_APP_STRAVA_CLIENT_ID is set in GitHub Secrets"
+      else
+        echo "REACT_APP_STRAVA_CLIENT_ID is not set in GitHub Secrets"
+        exit 1
+      fi
+      if [ -n "${{ secrets.REACT_APP_STRAVA_CLIENT_SECRET }}" ]; then
+        echo "REACT_APP_STRAVA_CLIENT_SECRET=${{ secrets.REACT_APP_STRAVA_CLIENT_SECRET }}" >> $GITHUB_ENV
+        echo "REACT_APP_STRAVA_CLIENT_SECRET is set in GitHub Secrets"
+      else
+        echo "REACT_APP_STRAVA_CLIENT_SECRET is not set in GitHub Secrets"
+        exit 1
+      fi
+
+    
+    - name: Build
+      working-directory: ./stram
+      env:
+        REACT_APP_STRAVA_CLIENT_ID: ${{ secrets.REACT_APP_STRAVA_CLIENT_ID }}
+        REACT_APP_STRAVA_CLIENT_SECRET: ${{ secrets.REACT_APP_STRAVA_CLIENT_SECRET }}
+      run: |
+        echo "REACT_APP_STRAVA_CLIENT_ID=${{ secrets.REACT_APP_STRAVA_CLIENT_ID }}" >> .env
+        echo "REACT_APP_STRAVA_CLIENT_SECRET=${{ secrets.REACT_APP_STRAVA_CLIENT_SECRET }}" >> .env
+        cat .env  # Debugging: check if env vars are written
+        CI=false npm run build
+
+    - name: Debug Build Output
+      run: |
+        grep -r REACT_APP_STRAVA_CLIENT_ID ./stram/build || echo "Client ID not found in build"
+
+
+    - name: Check Build Output
+      working-directory: ./stram
+      run: |
+        grep -r REACT_APP_STRAVA_CLIENT_ID build/static/js || echo "Client ID not found in build output"
+        cat build/static/js/main.*.js | grep REACT_APP_STRAVA_CLIENT_ID || echo "Client ID not found in main JS file"
+
+    - name: Debug
+      run: |
+        if [ -n "$REACT_APP_STRAVA_CLIENT_ID" ]; then
+          echo "REACT_APP_STRAVA_CLIENT_ID is set"
+        else
+          echo "REACT_APP_STRAVA_CLIENT_ID is not set"
+        fi
+        if [ -n "$REACT_APP_STRAVA_CLIENT_SECRET" ]; then
+          echo "REACT_APP_STRAVA_CLIENT_SECRET is set"
+        else
+          echo "REACT_APP_STRAVA_CLIENT_SECRET is not set"
+        fi
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./stram/build
