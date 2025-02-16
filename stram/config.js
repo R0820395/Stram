@@ -1,3 +1,3 @@
 window.STRAVA_CONFIG = {
-	CLIENT_ID: '147864'
+	CLIENT_ID: '__STRAVA_CLIENT_ID__'
 };
