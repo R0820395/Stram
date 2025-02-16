@@ -13,3 +13,4 @@ const StravaLogin = () => {
 		<button onClick={handleLogin}>Connect with Strava</button>
 	);
 };
+export default StravaLogin;
